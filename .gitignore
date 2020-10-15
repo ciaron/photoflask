@@ -1,4 +1,4 @@
-images/
+static/images/
 *.swp
 
 # Byte-compiled / optimized / DLL files

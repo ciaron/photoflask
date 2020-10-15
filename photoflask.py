@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 
 from flask import Flask, flash, request, redirect, url_for, render_template, send_from_directory
 from werkzeug.utils import secure_filename
@@ -6,7 +7,8 @@ from werkzeug.utils import secure_filename
 UPLOAD_FOLDER = 'images'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'} # upper- and lower-case checked
 
-app = Flask(__name__, static_url_path="/images")
+app = Flask(__name__)
+
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 def allowed_file(filename):
@@ -15,13 +17,13 @@ def allowed_file(filename):
 
 @app.route('/image/<img>')
 def send_image(img):
-    return send_from_directory(app.config['UPLOAD_FOLDER'], img)
+    return send_from_directory(os.path.join('static', app.config['UPLOAD_FOLDER']), img)
 
 @app.route('/')
 def index():
-    for root, dirs, images in os.walk(app.config['UPLOAD_FOLDER']):
-        images.sort()
-        
+
+    # images sorted in reverse order of upload time, i.e. newest uploads first.
+    images = [x.name for x in sorted(Path(os.path.join('static', app.config['UPLOAD_FOLDER'])).iterdir(), key=os.path.getmtime, reverse=True)]
     return render_template('index.html', images=images)
 
 @app.route('/', methods=['POST'])
@@ -40,5 +42,6 @@ def upload_file():
     if uploaded_file and allowed_file(uploaded_file.filename):
         filename = secure_filename(uploaded_file.filename)
         uploaded_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
 
     return redirect(url_for('index'))

@@ -7,6 +7,8 @@ dependencies:
   - certifi=2020.12.5=py39h06a4308_0
   - click=7.1.2=py_0
   - flask=1.1.2=py_0
+  - flask-login=0.5.0=py_0
+  - flask-sqlalchemy=2.4.4=py_0
   - itsdangerous=1.1.0=py_0
   - jinja2=2.11.2=py_0
   - ld_impl_linux-64=2.33.1=h53a641e_7
@@ -21,6 +23,7 @@ dependencies:
   - python=3.9.1=hdb3f193_2
   - readline=8.0=h7b6447c_0
   - setuptools=51.0.0=py39h06a4308_2
+  - sqlalchemy=1.3.21=py39h27cfd23_0
   - sqlite=3.33.0=h62c20be_0
   - tk=8.6.10=hbc83047_0
   - tzdata=2020d=h14c3975_0

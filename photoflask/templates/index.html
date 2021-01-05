@@ -8,7 +8,7 @@
   <body>
     {% for image in images %}
         <div class="image">
-          <img src="{{ url_for('send_image', img=image) }}"/>
+          <img src="{{ url_for('main.serve_image', img=image) }}"/>
         </div>
     {% endfor %}
     <h1>File Upload</h1>

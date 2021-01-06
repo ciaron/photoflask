@@ -9,6 +9,7 @@ dependencies:
   - flask=1.1.2=py_0
   - flask-login=0.5.0=py_0
   - flask-sqlalchemy=2.4.4=py_0
+  - flask-wtf=0.14.3=py_0
   - itsdangerous=1.1.0=py_0
   - jinja2=2.11.2=py_0
   - ld_impl_linux-64=2.33.1=h53a641e_7
@@ -29,6 +30,7 @@ dependencies:
   - tzdata=2020d=h14c3975_0
   - werkzeug=1.0.1=py_0
   - wheel=0.36.2=pyhd3eb1b0_0
+  - wtforms=2.3.3=py_0
   - xz=5.2.5=h7b6447c_0
   - zlib=1.2.11=h7b6447c_3
 prefix: /home/ciaron/miniconda3/envs/photoflask

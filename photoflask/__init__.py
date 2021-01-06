@@ -1,13 +1,20 @@
 import os
 
 from flask import Flask
-#from flask import flash, request, redirect, url_for, render_template, send_from_directory
+from flask_login import LoginManager
 
 from . import stream
+from photoflask.models import User
 
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
+    login = LoginManager(app)
+
+    @login.user_loader
+    def load_user(user_id):
+        return User.get(user_id)
+
     app.config.from_mapping(
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),

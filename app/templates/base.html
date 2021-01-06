@@ -1,5 +1,8 @@
 <html>
     <head>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <title>Photoflask</title>
+
         {% if title %}
         <title>{{ title }} - photostream</title>
         {% else %}
@@ -8,9 +11,11 @@
     </head>
     <body>
         <div>
-            <a href="{{ url_for('main.index') }}">Home</a>
+            <a href="{{ url_for('index') }}">Home</a>
             {% if current_user.is_anonymous %}
-            <a href="{{ url_for('main.login') }}">Login</a>
+            <a href="{{ url_for('login') }}">Login</a>
+            {% else %}
+            <a href="{{ url_for('logout') }}">Logout</a>
             {% endif %}
         </div>
         <hr>
@@ -24,5 +29,11 @@
         {% endif %}
         {% endwith %}
         {% block content %}{% endblock %}
+
+        {% if current_user.is_authenticated %}
+        <a href="{{ url_for('logout') }}" class="navbar-item">
+        Logout
+        </a>
+        {% endif %}
     </body>
 </html>

@@ -1,4 +1,5 @@
-photoflask/static/images/
+db.sqlite
+app/static/images/
 *.swp
 
 # Byte-compiled / optimized / DLL files

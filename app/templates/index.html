@@ -1,16 +1,27 @@
 {% extends "base.html" %}
-{% block content %}
-    {% for image in images %}
-        <div class="image">
-          <img src="{{ url_for('serve_image', img=image) }}"/>
-        </div>
-    {% endfor %}
+{% block app_content %}
+    {% if not current_user.is_anonymous %}
+        <h1>File Upload</h1>
+        <form method="POST" action="" enctype="multipart/form-data">
+            <p><input type="file" name="file"></p>
+            <p><input type="submit" value="Submit"></p>
+        </form>
+    {% endif %}
 
-{% if not current_user.is_anonymous %}
-    <h1>File Upload</h1>
-    <form method="POST" action="" enctype="multipart/form-data">
-      <p><input type="file" name="file"></p>
-      <p><input type="submit" value="Submit"></p>
-    </form>
-{% endif %}
+<div class="container-fluid">
+
+        <div class="col-md-2">
+        </div>
+
+        <div class="col-md-8">
+    {% for image in images %}
+          <img src="{{ url_for('serve_image', img=image) }}" class="img-responsive center-block">
+    {% endfor %}
+        </div>
+
+        <div class="col-md-2">
+        </div>
+
+</div>
+
 {% endblock %}

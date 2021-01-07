@@ -1,15 +1,20 @@
-<html>
-    <head>
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-        <title>Photoflask</title>
+{% extends 'bootstrap/base.html' %}
 
-        {% if title %}
-        <title>{{ title }} - photostream</title>
-        {% else %}
-        <title>Welcome to photostream</title>
-        {% endif %}
-    </head>
-    <body>
+{% block title %}
+    {% if title %}
+    {{ title }} - photostream
+    {% else %}
+    Welcome to photostream
+    {% endif %}
+{% endblock %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet"
+      href="{{url_for('.static', filename='css/style.css')}}">
+{% endblock %}
+
+{% block content %}
         <div>
             <a href="{{ url_for('index') }}">Home</a>
             {% if current_user.is_anonymous %}
@@ -21,19 +26,10 @@
         <hr>
         {% with messages = get_flashed_messages() %}
         {% if messages %}
-        <ul>
             {% for message in messages %}
-            <li>{{ message }}</li>
+                <div class="alert alert-info" role="alert">{{ message }}</div>
             {% endfor %}
-        </ul>
         {% endif %}
         {% endwith %}
-        {% block content %}{% endblock %}
-
-        {% if current_user.is_authenticated %}
-        <a href="{{ url_for('logout') }}" class="navbar-item">
-        Logout
-        </a>
-        {% endif %}
-    </body>
-</html>
+        {% block app_content %}{% endblock %}
+{% endblock %}

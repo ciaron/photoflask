@@ -1,12 +1,7 @@
-.image {
-  width: 66%;
-  display: block;
+img {
   border: dashed blue 1px;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-  margin-top: 100px;
-  margin-bottom: 100px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 .image img {
   max-height: 100vh;

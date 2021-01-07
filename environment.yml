@@ -34,8 +34,15 @@ dependencies:
   - xz=5.2.5=h7b6447c_0
   - zlib=1.2.11=h7b6447c_3
   - pip:
+    - alembic==1.4.3
     - dominate==2.6.0
+    - exifread==2.3.2
     - flask-bootstrap==3.3.7.1
+    - flask-migrate==2.5.3
+    - mako==1.1.3
+    - python-dateutil==2.8.1
+    - python-editor==1.0.4
+    - six==1.15.0
     - visitor==0.1.3
 prefix: /home/ciaron/miniconda3/envs/photoflask
 

@@ -10,17 +10,24 @@
 
 <div class="container-fluid">
 
-        <div class="col-md-2">
-        </div>
+    <div class="col-md-2">
+    </div>
 
-        <div class="col-md-8">
-    {% for image in images %}
-          <img src="{{ url_for('serve_image', img=image) }}" class="img-responsive center-block">
-    {% endfor %}
-        </div>
+    <div class="col-md-8">
+      {% for image in images %}
+      <img src="{{ url_for('serve_image', img=image) }}" class="img-responsive center-block img-rounded">
+      {% endfor %}
 
-        <div class="col-md-2">
-        </div>
+      {% if current_user.is_anonymous %}
+      <a href="{{ url_for('login') }}">Login</a>
+      {% else %}
+      <a href="{{ url_for('logout') }}">Logout</a>
+      {% endif %}
+
+    </div>
+
+    <div class="col-md-2">
+    </div>
 
 </div>
 

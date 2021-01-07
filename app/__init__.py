@@ -4,6 +4,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_bootstrap import Bootstrap
+from flask_migrate import Migrate
 
 #from app import routes, models
 
@@ -25,6 +26,7 @@ app.config.from_mapping(
 
 db.init_app(app)
 bootstrap = Bootstrap(app)
+migrate = Migrate(app, db)
 
 app.config.from_pyfile('config.py', silent=True)
 

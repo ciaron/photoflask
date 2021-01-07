@@ -1,4 +1,5 @@
 import os
+import exifread
 from pathlib import Path
 
 from flask import Flask, flash, request, redirect, abort, url_for, render_template, send_from_directory, current_app
@@ -9,7 +10,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from urllib.parse import urlparse, urljoin
 
 from app import app,db
-from app.models import User
+from app.models import User, Image
 from app.forms import LoginForm
 
 #main = Blueprint('main', __name__)
@@ -42,11 +43,11 @@ def signup_post():
     user = User.query.filter_by(email=email).first() # if this returns a user, then the email already exists in database
 
     if user: # if a user is found, we want to redirect back to signup page so user can try again
+        flash('User exists, please choose another email address')
         return redirect(url_for('signup'))
 
     # create a new user with the form data. Hash the password so the plaintext version isn't saved.
     new_user = User(email=email, username=username, password=generate_password_hash(password, method='sha256'))
-    #new_user = User(email='ciaron.linstead@gmail.com', username='ciaron', password=generate_password_hash('bobbins', method='sha256'))
     # add the new user to the database
     db.session.add(new_user)
     db.session.commit()
@@ -78,14 +79,31 @@ def logout():
 def serve_image(img):
     return send_from_directory(os.path.join(current_app.static_folder, current_app.config['UPLOAD_FOLDER']), img)
 
+def getimagedatetaken(path):
+    f = open(path, 'rb')
+    tags = exifread.process_file(f)
+    f.close()
+
+    # a string of the form '2021:01:05 15:31:46', can be used as a sort key
+    return tags.get('Image DateTimeOriginal', '0').values
+
+def getimagedescription(path):
+
+    f = open(path, 'rb')
+    tags = exifread.process_file(f)
+    f.close()
+
+    return tags.get('Image ImageDescription', '0').values
+
 @app.route('/')
 def index():
 
-    # images sorted in reverse order of upload time, i.e. newest uploads first.
-    #upload_dir = os.path.join(url_for('static', filename=current_app.config['UPLOAD_FOLDER']))
     upload_dir = os.path.join(current_app.static_folder, current_app.config['UPLOAD_FOLDER'])
-    print(upload_dir)
-    images = [x.name for x in sorted(Path(upload_dir).iterdir(), key=os.path.getmtime, reverse=True)]
+    # images sorted in reverse order of upload time, i.e. newest uploads first.
+    #images = [x.name for x in sorted(Path(upload_dir).iterdir(), key=os.path.getmtime, reverse=True)]
+
+    # images sorted in reverse order of time taken, i.e. newest images first.
+    images = [x.name for x in sorted(Path(upload_dir).iterdir(), key=getimagedatetaken, reverse=True)]
     return render_template('index.html', images=images)
 
 @app.route('/', methods=['POST'])
@@ -100,11 +118,26 @@ def upload_file():
 
     if uploaded_file.filename == '':
         flash('no selected file')
-        return redirect(url_for('app.index'))
+        return redirect(url_for('index'))
 
     if uploaded_file and allowed_file(uploaded_file.filename):
         filename = secure_filename(uploaded_file.filename)
-        uploaded_file.save(os.path.join(current_app.static_folder, current_app.config['UPLOAD_FOLDER'], filename))
+        fullpath = os.path.join(current_app.static_folder, current_app.config['UPLOAD_FOLDER'], filename)
+        uploaded_file.save(fullpath)
 
+    # add file info to DB
+    description = getimagedescription(fullpath)
+    filename = uploaded_file.filename
+    datetaken = getimagedatetaken(fullpath)
 
-    return redirect(url_for('app.index'))
+    # check if filename already exists, don't upload again
+    image = Image.query.filter_by(filename=filename).first()
+    if image:
+        flash('image with that filename already exists')
+        return redirect(url_for('index'))
+
+    new_image = Image(filename=filename, description=description, datetaken=datetaken)
+    db.session.add(new_image)
+    db.session.commit()
+
+    return redirect(url_for('index'))

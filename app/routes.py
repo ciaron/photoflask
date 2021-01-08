@@ -11,7 +11,7 @@ from urllib.parse import urlparse, urljoin
 
 from app import app,db
 from app.models import User, Image
-from app.forms import LoginForm
+from app.forms import LoginForm, UploadForm
 
 #main = Blueprint('main', __name__)
 
@@ -85,7 +85,10 @@ def getimagedatetaken(path):
     f.close()
 
     # a string of the form '2021:01:05 15:31:46', can be used as a sort key
-    return tags.get('Image DateTimeOriginal', '0').values
+    if 'Image DateTimeOriginal' in tags:
+        return tags.get('Image DateTimeOriginal').values
+    else:
+        return ""
 
 def getimagedescription(path):
 
@@ -93,7 +96,10 @@ def getimagedescription(path):
     tags = exifread.process_file(f)
     f.close()
 
-    return tags.get('Image ImageDescription', '0').values
+    if 'Image ImageDescription' in tags:
+        return tags.get('Image ImageDescription').values
+    else:
+        return ""
 
 @app.route('/')
 def index():
@@ -103,41 +109,46 @@ def index():
     #images = [x.name for x in sorted(Path(upload_dir).iterdir(), key=os.path.getmtime, reverse=True)]
 
     # images sorted in reverse order of time taken, i.e. newest images first.
-    images = [x.name for x in sorted(Path(upload_dir).iterdir(), key=getimagedatetaken, reverse=True)]
-    return render_template('index.html', images=images)
+    #images = [x.name for x in sorted(Path(upload_dir).iterdir(), key=getimagedatetaken, reverse=True)]
+    
+    images_ = Image.query.all()
+    images = [(x.filename, x.datetaken, x.description) for x in images_]    
+
+    form = UploadForm()   
+
+    return render_template('index.html', images=images, form=form)
 
 @app.route('/', methods=['POST'])
 @login_required
 def upload_file():
 
-    if 'file' not in request.files:
-        flash('no file part')
-        return redirect(url_for('index'))
+    form = UploadForm()
 
-    uploaded_file = request.files['file']
-
-    if uploaded_file.filename == '':
-        flash('no selected file')
-        return redirect(url_for('index'))
-
-    if uploaded_file and allowed_file(uploaded_file.filename):
+    if form.validate_on_submit():
+        uploaded_file = form.photo.data
         filename = secure_filename(uploaded_file.filename)
+        print(filename)
+        #f.save(os.path.join(
+        #    app.instance_path, 'photos', filename
+        #))
+        #return redirect(url_for('index'))
+
         fullpath = os.path.join(current_app.static_folder, current_app.config['UPLOAD_FOLDER'], filename)
         uploaded_file.save(fullpath)
 
-    # add file info to DB
-    description = getimagedescription(fullpath)
-    filename = uploaded_file.filename
-    datetaken = getimagedatetaken(fullpath)
+        # add file info to DB
+        description = getimagedescription(fullpath)
+        #filename = uploaded_file.filename
+        datetaken = getimagedatetaken(fullpath)
 
-    # check if filename already exists, don't upload again
-    image = Image.query.filter_by(filename=filename).first()
-    if image:
-        flash('image with that filename already exists')
-        return redirect(url_for('index'))
+        # check if filename already exists, don't upload again
+        image = Image.query.filter_by(filename=filename).first()
+        if image:
+           flash('image with that filename already exists')
+           return redirect(url_for('index'))
 
-    new_image = Image(filename=filename, description=description, datetaken=datetaken)
-    db.session.add(new_image)
-    db.session.commit()
+        new_image = Image(filename=filename, description=description, datetaken=datetaken)
+        db.session.add(new_image)
+        db.session.commit()
 
     return redirect(url_for('index'))

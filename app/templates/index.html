@@ -3,8 +3,9 @@
     {% if not current_user.is_anonymous %}
         <h1>File Upload</h1>
         <form method="POST" action="" enctype="multipart/form-data">
-            <p><input type="file" name="file"></p>
-            <p><input type="submit" value="Submit"></p>
+            {{ form.csrf_token }}
+            {{ form.photo(size=20) }}
+            <input type="submit" value="Upload">
         </form>
     {% endif %}
 
@@ -15,7 +16,8 @@
 
     <div class="col-md-8">
       {% for image in images %}
-      <img src="{{ url_for('serve_image', img=image) }}" class="img-responsive center-block img-rounded">
+      <img src="{{ url_for('serve_image', img=image[0]) }}" class="img-responsive center-block img-rounded">
+        <p>{{ image[1] }}</p>
       {% endfor %}
 
       {% if current_user.is_anonymous %}

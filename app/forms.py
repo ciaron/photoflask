@@ -8,5 +8,5 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Submit')
 
 class UploadForm(FlaskForm):
-    #files = MultipleFileField('File(s) Upload')
-    photo = FileField(validators=[FileRequired()])
+    files = MultipleFileField('File(s) Upload')
+    #photo = FileField(validators=[FileRequired()])

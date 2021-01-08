@@ -4,7 +4,7 @@
         <h1>File Upload</h1>
         <form method="POST" action="" enctype="multipart/form-data">
             {{ form.csrf_token }}
-            {{ form.photo(size=20) }}
+            {{ form.files }}
             <input type="submit" value="Upload">
         </form>
     {% endif %}

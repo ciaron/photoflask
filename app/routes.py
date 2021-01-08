@@ -125,13 +125,10 @@ def upload_file():
     form = UploadForm()
 
     if form.validate_on_submit():
-        uploaded_file = form.photo.data
+      for photo in form.files.data:
+        uploaded_file = photo
         filename = secure_filename(uploaded_file.filename)
         print(filename)
-        #f.save(os.path.join(
-        #    app.instance_path, 'photos', filename
-        #))
-        #return redirect(url_for('index'))
 
         fullpath = os.path.join(current_app.static_folder, current_app.config['UPLOAD_FOLDER'], filename)
         uploaded_file.save(fullpath)

@@ -111,7 +111,7 @@ def index():
     # images sorted in reverse order of time taken, i.e. newest images first.
     #images = [x.name for x in sorted(Path(upload_dir).iterdir(), key=getimagedatetaken, reverse=True)]
     
-    images_ = Image.query.all()
+    images_ = Image.query.order_by(Image.datetaken.desc()).all()
     images = [(x.filename, x.datetaken, x.description) for x in images_]    
 
     form = UploadForm()   
@@ -141,7 +141,7 @@ def upload_file():
         # check if filename already exists, don't upload again
         image = Image.query.filter_by(filename=filename).first()
         if image:
-           flash('image with that filename already exists')
+           flash('image with filename {} already exists'.format(filename))
            return redirect(url_for('index'))
 
         new_image = Image(filename=filename, description=description, datetaken=datetaken)

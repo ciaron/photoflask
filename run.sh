@@ -2,7 +2,7 @@
 #conda activate photoflask
 export FLASK_APP=photoflask.py
 export FLASK_ENV=development
-flask run
+flask run --host=0.0.0.0
 
 #flask db init
 #flask db migrate -m "new table"

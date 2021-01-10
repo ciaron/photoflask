@@ -9,15 +9,22 @@
         </form>
     {% endif %}
 
-<div class="container-fluid">
+<div class="container">
 
-    <div class="col-md-2">
+  <div class="row">
+    <div class="col">
     </div>
-
-    <div class="col-md-8">
+    <div class="col-xl-8 col-md-8 col-sm-10 col-">
+  
       {% for image in images %}
-      <img src="{{ url_for('serve_image', img=image[0]) }}" class="img-responsive center-block img-rounded">
-        <p>{{ image[1] }}</p>
+        <div class="_card mb-3">
+          <div class="_card-body text-center">
+            <img src="{{ url_for('serve_image', img=image[0]) }}" class="img-fluid">
+           {{ image[1] }}
+          </div>
+          <div class="_card-footer _text-center">
+          </div>
+      </div>
       {% endfor %}
 
       {% if current_user.is_anonymous %}
@@ -28,9 +35,9 @@
 
     </div>
 
-    <div class="col-md-2">
+    <div class="col">
     </div>
-
+  </div>
 </div>
 
 {% endblock %}

@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
 {% block app_content %}
 
 <div class="container-fluid">
@@ -7,11 +6,29 @@
    <div class="col-sm-2">
    </div>
    <div class="col-sm-8">
-    <h3 class="title">Login</h3>
-     {{ wtf.quick_form(form) }}
+
+       <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+            {{ form.username.label }}<br>
+            {{ form.username(size=32) }}<br>
+            {% for error in form.username.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+            {{ form.password.label }}<br>
+            {{ form.password(size=32) }}<br>
+            {% for error in form.password.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+
+
    </div>
+
    <div class="col-sm-2">
    </div>
+
   </div>
 </div>
 {% endblock %}

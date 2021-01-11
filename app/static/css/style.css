@@ -1,4 +1,4 @@
-@font-face{
+/*@font-face{
     font-family: 'JetBrains Mono';
     src: url('https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/fonts/webfonts/JetBrainsMono-Regular.woff2') format('woff2'),
          url('https://raw.githubusercontent.com/JetBrains/JetBrainsMono/master/fonts/ttf/JetBrainsMono-Regular.ttf') format('truetype');
@@ -11,4 +11,27 @@
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     font-family: 'JetBrains Mono';
+}*/
+
+    @font-face {
+    font-family: 'Milliard Book';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Milliard Book'), url({{url_for('.static', filename='fonts/Rene Bieder  Milliard Book.woff'}}) format('woff');
+    }
+
+* {
+font-family:'Milliard Book';font-weight:normal;font-size:42px
+
 }
+/*@font-face{
+    font-family: 'ProximaNovaReg';
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    font-family: 'ProximaNovaReg';
+}*/

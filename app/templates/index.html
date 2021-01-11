@@ -2,39 +2,44 @@
 {% block app_content %}
 
 <div class="uk-grid-small uk-grid-match" uk-grid>
-    <div class="uk-width-1-3@l uk-width-1-5@s">
+
+    <div class="uk-width-1-3@xl uk-width-1-4@l uk-width-1-5@s">
     </div>
 
     <div class="uk-width-expand">
 
-    {% if not current_user.is_anonymous %}
-        <h1>File Upload</h1>
-        <form method="POST" action="" enctype="multipart/form-data">
-            {{ form.csrf_token }}
-            {{ form.files }}
-            <input type="submit" value="Upload">
-        </form>
-    {% endif %}
-<div uk-lightbox>
-      {% for image in images %}
+      {% if not current_user.is_anonymous %}
+      <h1>File Upload</h1>
+      <form method="POST" action="" enctype="multipart/form-data">
+         {{ form.csrf_token }}
+         {{ form.files }}
+         <input type="submit" value="Upload">
+      </form>
+      {% endif %}
 
-        <div class="uk-card uk-card-default uk-card-body uk-margin-medium-bottom">
+      <div uk-lightbox>
+        {% for image in images %}
 
-           <a href="{{ url_for('serve_image', img=image[0]) }}" data-alt="{{ image[1] }}" data-caption="{{ image[1] }}"><img data-src="{{ url_for('serve_image', img=image[0]) }}" uk-img class="uk-align-center" alt="{{ image[1] }}"></a>
-           <div class="uk-card-footer">{{ image[1] }}</div>
+          <div class="uk-card uk-card-default uk-card-body uk-margin-medium-bottom">
+
+             <a href="{{ url_for('serve_image', img=image[0]) }}" data-alt="{{ image[1] }}" data-caption="{{ image[1] }}">
+               <img data-src="{{ url_for('serve_image', img=image[0]) }}" uk-img class="uk-align-center" alt="{{ image[1] }}">
+             </a>
+             <div class="uk-card-footer">{{ image[1] }}</div>
 
           </div>
-      {% endfor %}
-</div>
+        {% endfor %}
+      </div>
+
       {% if current_user.is_anonymous %}
       <a href="{{ url_for('login') }}">Login</a>
       {% else %}
       <a href="{{ url_for('logout') }}">Logout</a>
       {% endif %}
 
-
     </div>
-    <div class="uk-width-1-3@l uk-width-1-5@s">
+
+    <div class="uk-width-1-3@xl uk-width-1-4@l uk-width-1-5@s">
     </div>
 
 </div>

@@ -12,18 +12,3 @@
     text-rendering: optimizeLegibility;
     font-family: 'JetBrains Mono';
 }
-
-.img-container {
-    width: 50%;
-    padding-bottom: 50%;
-}
-
-._card-footer {
-}
-._card {
-  /*border: dashed blue 1px;*/
-  padding-bottom: 20px;
-  margin-top: 30px;
-  margin-bottom: 10px;
-}
-

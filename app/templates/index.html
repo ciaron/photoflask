@@ -1,5 +1,15 @@
 {% extends "base.html" %}
 {% block app_content %}
+<div class="container">
+
+  <div class="row">
+    <div class="col">
+    </div>
+
+
+    <div class="col-xl-8 col-md-10 col-sm- col-">
+
+
     {% if not current_user.is_anonymous %}
         <h1>File Upload</h1>
         <form method="POST" action="" enctype="multipart/form-data">
@@ -9,23 +19,25 @@
         </form>
     {% endif %}
 
-<div class="container">
 
-  <div class="row">
-    <div class="col">
-    </div>
-    <div class="col-xl-8 col-md-8 col-sm-10 col-">
-  
       {% for image in images %}
-        <div class="_card mb-3">
-          <div class="_card-body text-center">
-            <img src="{{ url_for('serve_image', img=image[0]) }}" class="img-fluid">
-           {{ image[1] }}
-          </div>
-          <div class="_card-footer _text-center">
-          </div>
+      <div class="card mb-3">
+        <div class="card-body text-center">
+          <img src="{{ url_for('serve_image', img=image[0]) }}" class="rsImg img-fluid w-100">
+        </div>
+        <div class="card-footer text-right">
+         {{ image[1] }}
+        </div>
       </div>
       {% endfor %}
+  <!--</div>-->
+    </div>
+
+    <div class="col">
+    </div>
+
+
+  </div>
 
       {% if current_user.is_anonymous %}
       <a href="{{ url_for('login') }}">Login</a>
@@ -33,11 +45,6 @@
       <a href="{{ url_for('logout') }}">Logout</a>
       {% endif %}
 
-    </div>
-
-    <div class="col">
-    </div>
-  </div>
 </div>
 
 {% endblock %}

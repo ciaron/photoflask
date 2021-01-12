@@ -30,6 +30,7 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in current_app.config['ALLOWED_EXTENSIONS']
 
+"""
 @app.route('/signup')
 def signup():
     return render_template('signup.html')
@@ -53,7 +54,7 @@ def signup_post():
     db.session.commit()
 
     return redirect(url_for('login'))
-
+"""
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:

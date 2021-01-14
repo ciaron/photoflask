@@ -6,6 +6,9 @@ from werkzeug.security import generate_password_hash
 
 db.init_app(app)
 
+# run this file with EMAIL= USERNAME= PASSWORD= python create_user.py
+# then visit localhost:5020 to execute
+
 @app.before_first_request
 def create_tables():
     db.create_all()

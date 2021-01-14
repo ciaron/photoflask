@@ -21,9 +21,11 @@ login = LoginManager(app)
 app.config.from_mapping(
     SECRET_KEY='dev',
     SQLALCHEMY_DATABASE_URI='sqlite:///db.sqlite',
+    SQLALCHEMY_TRACK_MODIFICATIONS=False,
 )
 
 db.init_app(app)
+
 migrate = Migrate(app, db)
 
 app.config.from_pyfile('config.py', silent=True)

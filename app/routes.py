@@ -131,7 +131,11 @@ def upload_file():
         filename = secure_filename(uploaded_file.filename)
         print(filename)
 
-        fullpath = os.path.join(current_app.static_folder, current_app.config['UPLOAD_FOLDER'], filename)
+        basedir = os.path.join(current_app.static_folder, current_app.config['UPLOAD_FOLDER'])
+        if not os.path.exists(basedir):
+            os.mkdir(basedir)
+    
+        fullpath = os.path.join(basedir, filename)
         uploaded_file.save(fullpath)
 
         # add file info to DB

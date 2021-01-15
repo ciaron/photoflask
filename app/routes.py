@@ -113,7 +113,7 @@ def index():
     #images = [x.name for x in sorted(Path(upload_dir).iterdir(), key=getimagedatetaken, reverse=True)]
     
     images_ = Image.query.order_by(Image.datetaken.desc()).all()
-    images = [(x.filename, x.datetaken, x.description) for x in images_]    
+    images = [(x.filename, x.datetaken, x.description, x.id) for x in images_]    
 
     form = UploadForm()   
 

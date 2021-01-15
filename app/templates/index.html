@@ -6,9 +6,7 @@
     <div class="col">
     </div>
 
-
     <div class="col-xl-8 col-md-10 col-sm- col-">
-
 
     {% if not current_user.is_anonymous %}
         <h1>File Upload</h1>
@@ -21,23 +19,26 @@
 
 
       {% for image in images %}
+
       <div class="card mb-3 mt-4" id="image-{{ image[3] }}">
         <div class="card-body text-center">
           <img src="{{ url_for('serve_image', img=image[0]) }}" class="rsImg img-fluid w-100">
+      <div class="alert alert-success success-{{image[3]}}" style="display:none; margin: 0;position: absolute;top: 50%;left: 10%; -ms-transform: translateY(-50%);transform: translateY(-50%);width: 80%">copied link!</div>
         </div>
         <div class="card-footer d-flex justify-content-between">
             <div>
            {{ image[1] }} 
             </div>
             <div>
-          <a href="#image-{{ image[3] }}" class="text-dark" data-toggle="tooltip" title="Copy link to this image" onclick="copyURI(event)"><i class="far fa-copy"></i></a>
-            <div class="alert alert-success success" style="margin: 0;position: absolute;top: 50%;left: 10%;-ms-transform: translateY(-50%);transform: translateY(-50%);display: none;width: 80%">copied!</div>
+          <a href="#image-{{ image[3] }}" class="text-dark" data-toggle="tooltip" data-placement="right" title="Copy link to this image" onclick="copyURI(event, {{image[3]}})"><i class="far fa-copy"></i></a>
             </div>
 
         </div>
       </div>
+
       {% endfor %}
-  <!--</div>-->
+      <!--<div class="alert alert-success success" style="margin: 0;position: absolute;top: 50%;left: 10%; -ms-transform: translateY(-50%);transform: translateY(-50%);display: none;width: 80%">copied link!</div>-->
+
     </div>
 
     <div class="col">

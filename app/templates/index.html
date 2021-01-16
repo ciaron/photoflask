@@ -22,7 +22,7 @@
 
       <div class="card mb-3 mt-4" id="image-{{ image[3] }}">
         <div class="card-body text-center">
-          <img src="{{ url_for('serve_image', img=image[0]) }}" class="rsImg img-fluid w-100">
+          <img src="{{ url_for('pf.serve_image', img=image[0]) }}" class="rsImg img-fluid w-100">
       <div class="alert alert-success success-{{image[3]}}" style="display:none; margin: 0;position: absolute;top: 50%;left: 10%; -ms-transform: translateY(-50%);transform: translateY(-50%);width: 80%">copied link!</div>
         </div>
         <div class="card-footer d-flex justify-content-between">
@@ -48,9 +48,9 @@
   </div>
 
       {% if current_user.is_anonymous %}
-      <a href="{{ url_for('login') }}">Login</a>
+      <a href="{{ url_for('pf.login') }}">Login</a>
       {% else %}
-      <a href="{{ url_for('logout') }}">Logout</a>
+      <a href="{{ url_for('pf.logout') }}">Logout</a>
       {% endif %}
 
 </div>

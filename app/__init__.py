@@ -5,18 +5,14 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
 
-#from app import routes, models
-
-db = SQLAlchemy()
+pf = Blueprint('pf', __name__)#, url_prefix='365')
 
 # create and configure the app
-app = Flask(__name__, instance_relative_config=True)
-login = LoginManager(app)
+app = Flask(__name__) #, instance_relative_config=True)
+#app.register_blueprint(pf, url_prefix='/365', template_folder='templates')
 
-#from app.models import User
-#@login.user_loader
-#def load_user(user_id):
-#    return User.get(user_id)
+login = LoginManager(app)
+db = SQLAlchemy()
 
 app.config.from_mapping(
     SECRET_KEY='dev',
@@ -24,14 +20,9 @@ app.config.from_mapping(
     SQLALCHEMY_TRACK_MODIFICATIONS=False,
 )
 
-bp = Blueprint('photoflask', __name__)
-app.register_blueprint(bp, url_prefix="/365")
-
 db.init_app(app)
 
 migrate = Migrate(app, db)
-
-app.config.from_pyfile('config.py', silent=True)
 
 # ensure the instance folder exists
 try:

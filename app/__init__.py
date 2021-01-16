@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask
+from flask import Flask, Blueprint
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
@@ -23,6 +23,9 @@ app.config.from_mapping(
     SQLALCHEMY_DATABASE_URI='sqlite:///db.sqlite',
     SQLALCHEMY_TRACK_MODIFICATIONS=False,
 )
+
+bp = Blueprint('photoflask', __name__)
+app.register_blueprint(bp, url_prefix="/365")
 
 db.init_app(app)
 

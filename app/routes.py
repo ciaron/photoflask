@@ -48,23 +48,23 @@ def getimagedescription(path):
 @pf.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for('pf.index'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user is None or not check_password_hash(user.password, form.password.data):
             flash('Invalid username or password')
-            return redirect(url_for('login'))
+            return redirect(url_for('pf.login'))
         login_user(user, remember=True)#form.remember_me.data)
         flash('Welcome ' + form.username.data)
-        return redirect(url_for('index'))
+        return redirect(url_for('pf.index'))
     return render_template('login.html', title='Sign In', form=form)
 
 @pf.route('/logout', methods=['GET','POST'])
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('index'))
+    return redirect(url_for('pf.index'))
 
 @pf.route('/image/<img>')
 def serve_image(img):
@@ -115,13 +115,13 @@ def upload_file():
         image = Image.query.filter_by(filename=filename).first()
         if image:
            flash('image with filename {} already exists'.format(filename))
-           return redirect(url_for('index'))
+           return redirect(url_for('pf.index'))
 
         new_image = Image(filename=filename, description=description, datetaken=datetaken)
         db.session.add(new_image)
         db.session.commit()
 
-    return redirect(url_for('index'))
+    return redirect(url_for('pf.index'))
 
 app.register_blueprint(pf, url_prefix='/365', template_folder='templates')
 

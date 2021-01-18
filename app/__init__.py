@@ -37,3 +37,5 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['ALLOWED_EXTENSIONS'] = ALLOWED_EXTENSIONS
 
 from app import routes, models
+app.register_blueprint(pf, url_prefix='/365', template_folder='templates')
+

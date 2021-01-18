@@ -123,5 +123,5 @@ def upload_file():
 
     return redirect(url_for('pf.index'))
 
-app.register_blueprint(pf, url_prefix='/365', template_folder='templates')
+#app.register_blueprint(pf, url_prefix='/365', template_folder='templates')
 

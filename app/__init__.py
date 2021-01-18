@@ -5,11 +5,11 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_migrate import Migrate
 
-pf = Blueprint('pf', __name__)#, url_prefix='365')
+pf = Blueprint('pf', __name__)
 
 # create and configure the app
-app = Flask(__name__) #, instance_relative_config=True)
-#app.register_blueprint(pf, url_prefix='/365', template_folder='templates')
+app = Flask(__name__)
+#app.register_blueprint(pf, url_prefix='/365', template_folder='templates') # must go after definition of routes
 
 login = LoginManager(app)
 db = SQLAlchemy()
